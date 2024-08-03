@@ -1,6 +1,7 @@
 // app/layout.js
 import { Inter } from "next/font/google";
 import Script from 'next/script'
+import { useGAPageView } from './hooks/useGAPageView'
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -11,6 +12,8 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  useGAPageView() // Ensure this hook is implemented for page view tracking
+
   return (
     <html lang="ja">
       <body className={inter.className}>
@@ -24,7 +27,9 @@ export default function RootLayout({ children }) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-F44KQXWZ47');
+            gtag('config', 'G-F44KQXWZ47', {
+              page_path: window.location.pathname,
+            });
           `}
         </Script>
       </body>
